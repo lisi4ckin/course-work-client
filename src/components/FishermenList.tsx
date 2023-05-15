@@ -28,9 +28,9 @@ function FishermenList() {
 
     const renderTableData = () => {
         return fishermen.map((fisherman, index) => {
-            const { id, fishermenFullName, age, experience } = fisherman;
+            const { fishermenId, fishermenFullName, age, experience } = fisherman;
             return (
-                <tr key={index + 1} onClick={() => navigate('/fishermen/${id}')}>
+                <tr key={index + 1} onClick={() => navigate('/fishermen/' + fishermenId)}>
                     <td>{index + 1}</td>
                     <td>{fishermenFullName}</td>
                     <td>{age}</td>
