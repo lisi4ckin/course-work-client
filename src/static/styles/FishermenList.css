@@ -1,0 +1,13 @@
+.table-header {
+    margin: 20px 20px;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.table-container {
+    width: 90vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
