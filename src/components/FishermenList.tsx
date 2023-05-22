@@ -30,7 +30,7 @@ function FishermenList() {
         return fishermen.map((fisherman, index) => {
             const { fishermenId, fishermenFullName, age, experience } = fisherman;
             return (
-                <tr key={index + 1} onClick={() => navigate('/fishermen/' + fishermenId)}>
+                <tr key={index + 1} onClick={() => navigate(`/fishermen/${fishermenId}`)}>
                     <td>{index + 1}</td>
                     <td>{fishermenFullName}</td>
                     <td>{age}</td>
@@ -46,6 +46,12 @@ function FishermenList() {
                 <p className='table-header'>Список актуальных участников клуба</p>
                 <table id='fishermen'>
                     <tbody>
+                        <tr>
+                            <td>№</td>
+                            <td>Имя</td>
+                            <td>Возраст</td>
+                            <td>Опыт</td>
+                        </tr>
                         {renderTableData()}
                     </tbody>
                 </table>
