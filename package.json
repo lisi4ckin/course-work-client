@@ -29,7 +29,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:9090/fish-club",
+  "proxy": "http://localhost:8890/fish-club",
   "eslintConfig": {
     "extends": [
       "react-app",

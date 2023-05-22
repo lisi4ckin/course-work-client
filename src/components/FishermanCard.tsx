@@ -11,10 +11,10 @@ const FishermanCard = (props) => {
         fullName: "",
         age: "",
         experience: "",
-        preferencesFish: []
+        preferencesFishes: []
     });
 
-    const { fullName, age, experience, preferencesFish } = fishermanData;
+    const { fullName, age, experience, preferencesFishes } = fishermanData;
 
     const [fishesRef, setFishesRef] = useState([]);
 
@@ -51,13 +51,20 @@ const FishermanCard = (props) => {
             });
     }
 
+    function reloadComponent(){
+        window.location.reload();
+      }
+
     const onInputChange = e => {
         setFishermanData({ ...fishermanData, [e.target.name]: e.target.value })
     }
 
     const FormHandle = e => {
         e.preventDefault();
-        updateDataToServer(fishermanData)
+        console.log(fishermanData.preferencesFishes);
+        fishermanData.preferencesFishes = tableToJson(document.getElementById('fishermen')) as [];
+        console.log(fishermanData.preferencesFishes);
+        updateDataToServer(fishermanData);
     }
 
     const updateDataToServer = (data) => {
@@ -65,12 +72,13 @@ const FishermanCard = (props) => {
     };
 
     const renderTableData = () => {
-        if (fishermanData.preferencesFish !== null) {
-            return fishermanData.preferencesFish?.map((fish, index) => {
-                const { fishId, referenceName } = fish;
+        if (fishermanData.preferencesFishes !== null) {
+            return fishermanData.preferencesFishes?.map((fish, index) => {
+                const { id, referenceName } = fish;
                 return (
-                    <tr key={index + 1} onClick={() => navigate(`/fishes/${fishId}`)}>
+                    <tr key={index + 1} onClick={() => navigate(`/fishes/${id}`)}>
                         <td>{index + 1}</td>
+                        <td>{id}</td>
                         <td>{referenceName}</td>
                     </tr>
                 )
@@ -78,6 +86,25 @@ const FishermanCard = (props) => {
         } else {
             return null;
         }
+    }
+
+    function tableToJson(table) {
+        console.log(table);
+        var data: any[] = [];
+        var headers = ['id', 'referenceName'];
+        for (var i = 0; i < table.rows.length; i++) {
+            var tableRow = table.rows[i];
+            console.log(tableRow);
+            var rowData = {};
+            for (var j = 1; j < tableRow.cells.length; j++) {
+                console.log(tableRow.cells[j]);
+                console.log(tableRow.cells[j].innerHTML);
+                rowData[headers[j - 1]] = tableRow.cells[j].innerHTML;
+            }
+            data.push(rowData);
+        }
+        console.log(data);
+        return data;
     }
 
     return (
@@ -105,11 +132,11 @@ const FishermanCard = (props) => {
                     <section className='form-section'>
                         <h1 className='form-section-title'>Предпочитаемые рыбы пользователя</h1>
                         <table id='fishermen' className='form-table'>
+                            <th>
+                                <td>№</td>
+                                <td>Наименование</td>
+                            </th>
                             <tbody>
-                                <tr>
-                                    <td>№</td>
-                                    <td>Наименование</td>
-                                </tr>
                                 {renderTableData()}
                             </tbody>
                         </table>
