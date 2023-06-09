@@ -26,10 +26,10 @@ const FishermenCrud = ({ load, fishermens }) => {
         load();
     }
     async function editFishermen(fishermens) {
-        setFullName(fishermens.fullName);
+        setFullName(fishermens.fishermenFullName);
         setAge(fishermens.age);
         setExperience(fishermens.experience);
-        setId(fishermens.id);
+        setId(fishermens.fishermenId);
     }
 
     async function deleteEmployee(id) {
@@ -41,7 +41,7 @@ const FishermenCrud = ({ load, fishermens }) => {
     async function update(event) {
         event.preventDefault();
         if (!id) return alert("Publisher Details No Found");
-        await axios.put("/update", {
+        await axios.put("/fishermen/" + id, {
             id: id,
             fullName: fullName,
             age: age,
