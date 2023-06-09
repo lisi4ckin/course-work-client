@@ -1,13 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
 import FishermenList from "./FishermenList";
+import { Multiselect } from "multiselect-react-dropdown";
 
-const FishermenCrud = ({ load, fishermens }) => {
+const FishermenCrud = ({ load, fishermens, fishes }) => {
     /* state definition  */
     const [id, setId] = useState("");
     const [fullName, setFullName] = useState("");
     const [age, setAge] = useState<number>(0)
     const [experience, setExperience] = useState<number>(0);
+    const [preferencesFishes, setPreferencesFishes] = useState(null);
 
     /* being handlers */
     async function save(event) {
@@ -16,6 +18,7 @@ const FishermenCrud = ({ load, fishermens }) => {
             fullName: fullName,
             age: age,
             experience: experience,
+            preferencesFishes: preferencesFishes,
         });
         alert("Fishermen Record Saved");
         // reset state
@@ -23,6 +26,7 @@ const FishermenCrud = ({ load, fishermens }) => {
         setFullName("");
         setAge(0);
         setExperience(0);
+        setPreferencesFishes(null);
         load();
     }
     async function editFishermen(fishermens) {
@@ -46,6 +50,7 @@ const FishermenCrud = ({ load, fishermens }) => {
             fullName: fullName,
             age: age,
             experience: experience,
+            preferencesFishes: preferencesFishes,
         });
         alert("Fishermen Details Updated");
         // reset state
@@ -53,14 +58,37 @@ const FishermenCrud = ({ load, fishermens }) => {
         setFullName("");
         setAge(0);
         setExperience(0);
+        setPreferencesFishes(null);
         load();
     }
     /* end handlers */
+    const onSelect = (selectedList, selectedItem) => {
+        setPreferencesFishes(selectedList);
+        let value = "";
+        selectedList.forEach(element => {
+            value = value == "" ? element.referenceName : value + "," + element.referenceName;
+        });
+        alert(value)
+    }
+    const onRemove = (selectedList, removedItem) => {
+        setPreferencesFishes(selectedList);
+        let value = "";
+        selectedList.forEach(element => {
+            value = value == "" ? element.referenceName : value + "," + element.referenceName;
+        });
+        alert(value)
+    }
 
     /* jsx */
     return (
         <div className="container mt-4">
             <form>
+
+                <label>Предпочитаемые рыбы</label>
+                <Multiselect placeholder="Выбирите предпочитаемых рыб" options={fishes}
+                    displayValue="referenceName"
+                    onSelect={onSelect}
+                    onRemove={onRemove} />
                 <div className="form-group my-2">
                     <input
                         type="text"
