@@ -68,7 +68,6 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
         selectedList.forEach(element => {
             value = value == "" ? element.referenceName : value + "," + element.referenceName;
         });
-        alert(value)
     }
     const onRemove = (selectedList, removedItem) => {
         setPreferencesFishes(selectedList);
@@ -76,19 +75,12 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
         selectedList.forEach(element => {
             value = value == "" ? element.referenceName : value + "," + element.referenceName;
         });
-        alert(value)
     }
 
     /* jsx */
     return (
         <div className="container mt-4">
             <form>
-
-                <label>Предпочитаемые рыбы</label>
-                <Multiselect placeholder="Выбирите предпочитаемых рыб" options={fishes}
-                    displayValue="referenceName"
-                    onSelect={onSelect}
-                    onRemove={onRemove} />
                 <div className="form-group my-2">
                     <input
                         type="text"
@@ -114,6 +106,14 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
                         value={age}
                         onChange={e => setAge(+e.target.value)}
                     />
+                </div>
+
+                <div className="form-group mb-2">
+                    <label>Предпочитаемые рыбы</label>
+                    <Multiselect placeholder="Выбирите предпочитаемых рыб" options={fishes}
+                        displayValue="referenceName"
+                        onSelect={onSelect}
+                        onRemove={onRemove} />
                 </div>
 
                 <div className="row">

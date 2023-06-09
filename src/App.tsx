@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar';
 import Fisherman from "./pages/Fisherman";
+import Fishes from "./pages/Fishes";
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path='/fishermen' Component={Fisherman} />
+          <Route path='/fishes' Component={Fishes} />
         </Routes>
       </BrowserRouter>
     </>
