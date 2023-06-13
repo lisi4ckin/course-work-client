@@ -3,6 +3,7 @@ import axios from "axios";
 import FishermenList from "./FishermenList";
 import { Multiselect } from "multiselect-react-dropdown";
 
+
 const FishermenCrud = ({ load, fishermens, fishes }) => {
     /* state definition  */
     const [id, setId] = useState("");
@@ -10,24 +11,28 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
     const [age, setAge] = useState<number>(0)
     const [experience, setExperience] = useState<number>(0);
     const [preferencesFishes, setPreferencesFishes] = useState(null);
+ 
 
     /* being handlers */
     async function save(event) {
+        const regexp = /[^А-Яа-я]+/g;
         event.preventDefault();
-        await axios.post("/fishermen", {
-            fullName: fullName,
-            age: age,
-            experience: experience,
-            preferencesFishes: preferencesFishes,
-        });
-        alert("Fishermen Record Saved");
-        // reset state
-        setId("");
-        setFullName("");
-        setAge(0);
-        setExperience(0);
-        setPreferencesFishes(null);
-        load();
+        if (checkValidFields(fullName, age, experience)) {
+            await axios.post("/fishermen", {
+                fullName: fullName,
+                age: age,
+                experience: experience,
+                preferencesFishes: preferencesFishes,
+            });
+            alert("Fishermen Record Saved");
+            // reset state
+            setId("");
+            setFullName("");
+            setAge(0);
+            setExperience(0);
+            setPreferencesFishes(null);
+            load();
+        }
     }
     async function editFishermen(fishermens) {
         setFullName(fishermens.fishermenFullName);
@@ -45,22 +50,39 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
     async function update(event) {
         event.preventDefault();
         if (!id) return alert("Publisher Details No Found");
-        await axios.put("/fishermen/" + id, {
-            id: id,
-            fullName: fullName,
-            age: age,
-            experience: experience,
-            preferencesFishes: preferencesFishes,
-        });
-        alert("Fishermen Details Updated");
-        // reset state
-        setId("");
-        setFullName("");
-        setAge(0);
-        setExperience(0);
-        setPreferencesFishes(null);
-        load();
+        if (checkValidFields(fullName, age, experience)) { 
+            await axios.put("/fishermen/" + id, {
+                id: id,
+                fullName: fullName,
+                age: age,
+                experience: experience,
+                preferencesFishes: preferencesFishes,
+            });
+            alert("Fishermen Details Updated");
+            // reset state
+            setId("");
+            setFullName("");
+            setAge(0);
+            setExperience(0);
+            setPreferencesFishes(null);
+            load();
+        }
     }
+    
+    function checkValidFields(fullName, age, experience):boolean {
+        const regexp = /[^А-Яа-я]+/g;
+        if (regexp.test(fullName) || fullName === '') {
+            alert("Name is not correct");   
+        } else if (age < 14 || age > 150) {
+            alert("Age is not correct");   
+        } else if (experience > 150) {
+            alert("Experience is not correct");   
+        } else {
+            return true;
+        }
+        return false;
+    }
+    
     /* end handlers */
     const onSelect = (selectedList, selectedItem) => {
         setPreferencesFishes(selectedList);
@@ -93,6 +115,7 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
                     <input
                         type="text"
                         className="form-control"
+                        maxLength={30}
                         value={fullName}
                         onChange={e => setFullName(e.target.value)}
                     />
@@ -103,6 +126,8 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
                     <input
                         type="number"
                         className="form-control"
+                        min="1"
+                        max="150"
                         value={age}
                         onChange={e => setAge(+e.target.value)}
                     />
@@ -110,10 +135,11 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
 
                 <div className="form-group mb-2">
                     <label>Предпочитаемые рыбы</label>
-                    <Multiselect placeholder="Выбирите предпочитаемых рыб" options={fishes}
+                    <Multiselect placeholder="Выберите предпочитаемых рыб" options={fishes}
                         displayValue="referenceName"
                         onSelect={onSelect}
-                        onRemove={onRemove} />
+                        onRemove={onRemove}
+                        />
                 </div>
 
                 <div className="row">
@@ -123,6 +149,8 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
                             type="number"
                             className="form-control"
                             value={experience}
+                            min="0"
+                            max="150"
                             placeholder="Published Post(s)"
                             onChange={e => setExperience(+e.target.value)}
                         />
@@ -130,7 +158,7 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
                 </div>
 
                 <div>
-                    <button className="btn btn-primary m-4" onClick={save}>
+                    <button className="btn btn-primary m-4" onClick={save}  >
                         Создать
                     </button>
                     <button className="btn btn-warning m-4" onClick={update}>
