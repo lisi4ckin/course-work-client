@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import FishermenList from "./FishermenList";
 import { Multiselect } from "multiselect-react-dropdown";
+import fileDownload from 'js-file-download'
 
 
 const FishermenCrud = ({ load, fishermens, fishes }) => {
@@ -11,7 +12,7 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
     const [age, setAge] = useState<number>(0)
     const [experience, setExperience] = useState<number>(0);
     const [preferencesFishes, setPreferencesFishes] = useState(null);
- 
+
 
     /* being handlers */
     async function save(event) {
@@ -50,7 +51,7 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
     async function update(event) {
         event.preventDefault();
         if (!id) return alert("Publisher Details No Found");
-        if (checkValidFields(fullName, age, experience)) { 
+        if (checkValidFields(fullName, age, experience)) {
             await axios.put("/fishermen/" + id, {
                 id: id,
                 fullName: fullName,
@@ -68,21 +69,30 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
             load();
         }
     }
-    
-    function checkValidFields(fullName, age, experience):boolean {
+
+    async function download() {
+        await axios.get("/fishermen/report", {
+            responseType: 'blob',
+        })
+            .then(response => {
+                fileDownload(response.data, `Report.xlsx`);
+            });
+    }
+
+    function checkValidFields(fullName, age, experience): boolean {
         const regexp = /[^А-Яа-я]+/g;
         if (regexp.test(fullName) || fullName === '') {
-            alert("Name is not correct");   
+            alert("Name is not correct");
         } else if (age < 14 || age > 150) {
-            alert("Age is not correct");   
+            alert("Age is not correct");
         } else if (experience > 150) {
-            alert("Experience is not correct");   
+            alert("Experience is not correct");
         } else {
             return true;
         }
         return false;
     }
-    
+
     /* end handlers */
     const onSelect = (selectedList, selectedItem) => {
         setPreferencesFishes(selectedList);
@@ -139,7 +149,7 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
                         displayValue="referenceName"
                         onSelect={onSelect}
                         onRemove={onRemove}
-                        />
+                    />
                 </div>
 
                 <div className="row">
@@ -166,6 +176,9 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
                     </button>
                 </div>
             </form>
+            <button className="btn btn-primary m-4" onClick={download}>
+                Загрузить отчет
+            </button>
             <FishermenList
                 fishermens={fishermens}
                 editFishermen={editFishermen}
