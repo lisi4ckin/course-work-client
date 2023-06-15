@@ -11,24 +11,29 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
     const [fullName, setFullName] = useState("");
     const [age, setAge] = useState<number>(0)
     const [experience, setExperience] = useState<number>(0);
+    const [passportNumber, setPassportNumber] = useState("");
+    const [passportSeries, setPassportSeries] = useState("");
     const [preferencesFishes, setPreferencesFishes] = useState(null);
 
 
     /* being handlers */
     async function save(event) {
-        const regexp = /[^А-Яа-я]+/g;
         event.preventDefault();
-        if (checkValidFields(fullName, age, experience)) {
+        if (checkValidFields(fullName, age, experience, passportNumber, passportSeries)) {
             await axios.post("/fishermen", {
                 fullName: fullName,
                 age: age,
                 experience: experience,
                 preferencesFishes: preferencesFishes,
+                passportNumber: passportNumber,
+                passportSeries: passportSeries,
             });
             alert("Fishermen Record Saved");
             // reset state
             setId("");
             setFullName("");
+            setPassportSeries("");
+            setPassportNumber("");
             setAge(0);
             setExperience(0);
             setPreferencesFishes(null);
@@ -37,6 +42,8 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
     }
     async function editFishermen(fishermens) {
         setFullName(fishermens.fishermenFullName);
+        setPassportSeries(fishermens.passportSeries);
+        setPassportNumber(fishermens.passportNumber);
         setAge(fishermens.age);
         setExperience(fishermens.experience);
         setId(fishermens.fishermenId);
@@ -51,7 +58,7 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
     async function update(event) {
         event.preventDefault();
         if (!id) return alert("Publisher Details No Found");
-        if (checkValidFields(fullName, age, experience)) {
+        if (checkValidFields(fullName, age, experience, passportNumber, passportSeries)) {
             await axios.put("/fishermen/" + id, {
                 id: id,
                 fullName: fullName,
@@ -63,6 +70,8 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
             // reset state
             setId("");
             setFullName("");
+            setPassportSeries("");
+            setPassportNumber("");
             setAge(0);
             setExperience(0);
             setPreferencesFishes(null);
@@ -79,11 +88,18 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
             });
     }
 
-    function checkValidFields(fullName, age, experience): boolean {
-        const regexp = /[^А-Яа-я]+/g;
-        if (regexp.test(fullName) || fullName === '') {
+    function checkValidFields(fullName, age, experience, passportNumber, passportSeries): boolean {
+        const regexpName = /[^А-Яа-я]+/g;
+        const regexPassport = /[^\d]/;
+        if (regexpName.test(fullName) || fullName === '') {
             alert("Name is not correct");
-        } else if (age < 14 || age > 150) {
+        } else if (regexPassport.test(passportSeries) || passportSeries === '' || passportSeries.length !== 4 ) {
+            alert("Passport series is not correct");
+        }
+        else if (regexPassport.test(passportNumber) || passportNumber === '' || passportNumber.length !== 6) {
+            alert("Passport number is not correct");
+        }
+        else if (age < 14 || age > 150) {
             alert("Age is not correct");
         } else if (experience > 150) {
             alert("Experience is not correct");
@@ -128,6 +144,22 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
                         maxLength={30}
                         value={fullName}
                         onChange={e => setFullName(e.target.value)}
+                    />
+                    <label>Серия паспорта</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        maxLength={4}
+                        value={passportSeries}
+                        onChange={e => setPassportSeries(e.target.value)}
+                    />
+                    <label>Номер паспорта</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        maxLength={6}
+                        value={passportNumber}
+                        onChange={e => setPassportNumber(e.target.value)}
                     />
                 </div>
 
