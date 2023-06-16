@@ -5,6 +5,7 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Fisherman from "./pages/Fisherman";
 import Fishes from "./pages/Fishes";
+import Baits from "./pages/Baits";
 import { VictoryPie } from "victory-pie";
 
 const myData = [
@@ -21,15 +22,16 @@ function App() {
         <Routes>
           <Route path='/fishermen' Component={Fisherman} />
           <Route path='/fishes' Component={Fishes} />
+          <Route path='/baits' Component={Baits} />
         </Routes>
       </BrowserRouter>
-      <div>
+      {/* <div>
         <VictoryPie
           data={myData}
           colorScale={["blue", "yellow", "red"]}
           radius={50}
         />
-      </div>
+      </div> */}
     </>
   );
 }
