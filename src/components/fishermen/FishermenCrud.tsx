@@ -47,6 +47,7 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
         setAge(fishermens.age);
         setExperience(fishermens.experience);
         setId(fishermens.fishermenId);
+        setPreferencesFishes(fishermens.preferencesFishes);
     }
 
     async function deleteEmployee(id) {
@@ -65,6 +66,8 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
                 age: age,
                 experience: experience,
                 preferencesFishes: preferencesFishes,
+                passportNumber: passportNumber,
+                passportSeries: passportSeries,
             });
             alert("Fishermen Details Updated");
             // reset state
@@ -73,8 +76,8 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
             setPassportSeries("");
             setPassportNumber("");
             setAge(0);
-            setExperience(0);
             setPreferencesFishes(null);
+            setExperience(0);
             load();
         }
     }
