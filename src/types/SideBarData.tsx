@@ -24,5 +24,11 @@ export const sidebarData = [
         path: '/baits',
         icon: <GiIcons.GiFishingLure />,
         cName: 'nav-text'
+    },
+    {
+        title: 'Диаграммы',
+        path: '/diagrams',
+        icon: <GiIcons.GiDiagram />,
+        cName: 'nav-text'
     }
 ]
