@@ -7,13 +7,6 @@ import Fisherman from "./pages/Fisherman";
 import Fishes from "./pages/Fishes";
 import Baits from "./pages/Baits";
 import Diagrams from "./pages/Diagrams";
-import { VictoryPie } from "victory-pie";
-
-const myData = [
-  { x: "Март", y: 900 },
-  { x: "Август", y: 400 },
-  { x: "Июнь", y: 300 },
-];
 
 function App() {
   return (
