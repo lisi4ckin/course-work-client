@@ -6,7 +6,7 @@ import FishCrud from '../components/fish/FishCrud';
 
 const Fishes = () => {
 
-  const [fishes, setFishermens] = useState([]);
+  const [fishes, setFishes] = useState([]);
 
   /* manage side effects */
   useEffect(() => {
@@ -15,10 +15,10 @@ const Fishes = () => {
 
   async function load() {
     const result = await axios.get("/fishes");
-    setFishermens(result.data);
+    setFishes(result.data);
+
   }
 
-  
   return (
     <div className='main-content'>
       <FishCrud load={load} fishes={fishes}/>

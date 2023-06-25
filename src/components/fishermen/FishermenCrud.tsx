@@ -5,6 +5,7 @@ import { Multiselect } from "multiselect-react-dropdown";
 import fileDownload from 'js-file-download'
 
 
+
 const FishermenCrud = ({ load, fishermens, fishes }) => {
     /* state definition  */
     const [id, setId] = useState("");
@@ -92,7 +93,7 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
     }
 
     function checkValidFields(fullName, age, experience, passportNumber, passportSeries): boolean {
-        const regexpName = /[^А-Яа-я]+/g;
+        const regexpName = /[^А-Яа-я ]+/g;
         const regexPassport = /[^\d]/;
         if (regexpName.test(fullName) || fullName === '') {
             alert("Name is not correct");
@@ -140,11 +141,11 @@ const FishermenCrud = ({ load, fishermens, fishes }) => {
                         value={id}
                         onChange={e => setId(e.target.value)}
                     />
-                    <label>Имя</label>
+                    <label>ФИО</label>
                     <input
                         type="text"
                         className="form-control"
-                        maxLength={30}
+                        maxLength={100}
                         value={fullName}
                         onChange={e => setFullName(e.target.value)}
                     />

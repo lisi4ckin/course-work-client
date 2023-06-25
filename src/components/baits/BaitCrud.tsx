@@ -3,12 +3,13 @@ import axios from "axios";
 import BaitList from "./BaitList";
 import { Multiselect } from "multiselect-react-dropdown";
 
-const BaitCrud = ({ load, baits }) => {
+const BaitCrud = ({ load, baits, fishes}) => {
     /* state definition  */
     const [id, setId] = useState("");
     const [baitName, setBaitName] = useState("");
     const [baitType, setBaitType] = useState("");
     const [baitTechnic, setBaitTechnic] = useState("");
+    const [preferencesFishes, setPreferencesFishes] = useState(null);
 
     /* being handlers */
     async function save(event) {
@@ -17,6 +18,7 @@ const BaitCrud = ({ load, baits }) => {
             baitName: baitName,
             baitType: baitType,
             baitTechnic: baitTechnic,
+            preferencesFishes: preferencesFishes,
         });
         alert("Bait Record Saved");
         // reset state
@@ -24,6 +26,7 @@ const BaitCrud = ({ load, baits }) => {
         setBaitName("");
         setBaitType("");
         setBaitTechnic("");
+        setPreferencesFishes(null);
         load();
     }
     async function editBaits(baits) {
@@ -31,6 +34,7 @@ const BaitCrud = ({ load, baits }) => {
         setBaitType(baits.baitType);
         setBaitTechnic(baits.baitTechnic);
         setId(baits.baitId);
+        setPreferencesFishes(baits.preferencesFishes);
     }
 
     async function deleteBait(id) {
@@ -46,6 +50,7 @@ const BaitCrud = ({ load, baits }) => {
             baitName: baitName,
             baitType: baitType,
             baitTechnic: baitTechnic,
+            preferencesFishes: preferencesFishes,
         });
         alert("Fishermen Details Updated");
         // reset state
@@ -53,7 +58,24 @@ const BaitCrud = ({ load, baits }) => {
         setBaitName("");
         setBaitType("");
         setBaitTechnic("");
+        setPreferencesFishes(null);
         load();
+    }
+
+    /* end handlers */
+    const onSelect = (selectedList, selectedItem) => {
+        setPreferencesFishes(selectedList);
+        let value = "";
+        selectedList.forEach(element => {
+            value = value == "" ? element.referenceName : value + "," + element.referenceName;
+        });
+    }
+    const onRemove = (selectedList, removedItem) => {
+        setPreferencesFishes(selectedList);
+        let value = "";
+        selectedList.forEach(element => {
+            value = value == "" ? element.referenceName : value + "," + element.referenceName;
+        });
     }
 
     /* jsx */
@@ -94,6 +116,15 @@ const BaitCrud = ({ load, baits }) => {
                         className="form-control"
                         value={baitTechnic}
                         onChange={e => setBaitTechnic(e.target.value)}
+                    />
+                </div>
+
+                <div className="form-group mb-2">
+                    <label>Предпочитаемые рыбы</label>
+                    <Multiselect placeholder="Выберите предпочитаемых рыб" options={fishes}
+                        displayValue="referenceName"
+                        onSelect={onSelect}
+                        onRemove={onRemove}
                     />
                 </div>
                 

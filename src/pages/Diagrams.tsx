@@ -1,3 +1,4 @@
+
 import React from 'react'
 import FishermenCrud from '../components/fishermen/FishermenCrud';
 import axios from "axios";
@@ -11,11 +12,11 @@ const Fisherman = () => {
   const [diagramData, setDiagramData] = useState([{}]);
 
   /* manage side effects */
-  useEffect(() => {
-    (async () => await load())();
-  }, []);
+  
+  (async () => await load())();
 
   async function load() {
+    
     var count = 0;
     var y1 = 0;
     var y2 = 0;
@@ -47,9 +48,11 @@ const Fisherman = () => {
     <div className='main-content'>   
     { <div>
       <VictoryPie
+      
         data={diagramData}
         colorScale={["blue", "yellow", "red"]}
         radius={100}
+        
       />
       </div> }
     </div>

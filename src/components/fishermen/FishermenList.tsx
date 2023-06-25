@@ -6,7 +6,7 @@ const FishermenList = ({ fishermens, editFishermen, deleteFishermen }) => {
             <thead className="thead-light">
                 <tr>
                     <th scope="col">Nº</th>
-                    <th scope="col">Имя</th>
+                    <th scope="col">ФИО</th>
                     <th scope="col">Возраст</th>
                     <th scope="col">Опыт</th>
                     <th scope="col">Действие</th>

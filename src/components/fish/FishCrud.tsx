@@ -3,7 +3,7 @@ import axios from "axios";
 import FishList from "./FishList";
 import { Multiselect } from "multiselect-react-dropdown";
 
-const FishCrud = ({ load, fishes }) => {
+const FishCrud = ({ load, fishes}) => {
     /* state definition  */
     const [id, setId] = useState("");
     const [fishName, setFishName] = useState("");
@@ -62,14 +62,14 @@ const FishCrud = ({ load, fishes }) => {
     }
     /* end handlers */
     // const onSelect = (selectedList, selectedItem) => {
-    //     setPreferencesFishes(selectedList);
+    //     setPreferencesBaits(selectedList);
     //     let value = "";
     //     selectedList.forEach(element => {
     //         value = value == "" ? element.referenceName : value + "," + element.referenceName;
     //     });
     // }
     // const onRemove = (selectedList, removedItem) => {
-    //     setPreferencesFishes(selectedList);
+    //     setPreferencesBaits(selectedList);
     //     let value = "";
     //     selectedList.forEach(element => {
     //         value = value == "" ? element.referenceName : value + "," + element.referenceName;
@@ -109,8 +109,8 @@ const FishCrud = ({ load, fishes }) => {
                 </div>
 
                 {/* <div className="form-group mb-2">
-                    <label>Предпочитаемые рыбы</label>
-                    <Multiselect placeholder="Выбирите предпочитаемых рыб" options={fishes}
+                    <label>Наживки</label>
+                    <Multiselect placeholder="Выберите наживки" options={baits}
                         displayValue="referenceName"
                         onSelect={onSelect}
                         onRemove={onRemove} />
